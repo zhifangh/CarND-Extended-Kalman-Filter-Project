@@ -4,6 +4,10 @@ cmake_minimum_required (VERSION 3.5)
 
 add_definitions(-std=c++11)
 
+set(OPENSSL_ROOT_DIR "/mnt/hgfs/dev/git/baic/baic_ehp/3rd/openssl/output/3.0.0")
+set(OPENSSL_LIBRARIES "/mnt/hgfs/dev/git/baic/baic_ehp/3rd/openssl/output/3.0.0/lib")
+set(OPENSSL_INCLUDE_DIR "/mnt/hgfs/dev/git/baic/baic_ehp/3rd/openssl/output/3.0.0/include")
+
 set(CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS "${CXX_FLAGS}")
 
