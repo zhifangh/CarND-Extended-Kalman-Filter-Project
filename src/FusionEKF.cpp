@@ -45,8 +45,8 @@ FusionEKF::FusionEKF() {
   ekf_.x_ = VectorXd(4);
   ekf_.Q_ = MatrixXd(4, 4);
   
-  noise_ax = 9; // ¦Òax2
-  noise_ay = 9; // ¦Òay2
+  noise_ax = 9; // sax2
+  noise_ay = 9; // say2
 }
 
 /**
@@ -55,6 +55,8 @@ FusionEKF::FusionEKF() {
 FusionEKF::~FusionEKF() {}
 
 void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
+  
+  cout << ">>> FusionEKF::ProcessMeasurement" << endl;
   /**
    * Initialization
    */
@@ -69,14 +71,18 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     cout << "EKF: " << endl;
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
+      
+      cout << "Init RADAR" << endl;
+      
       // TODO: Convert radar from polar to cartesian coordinates and initialize state.
       float ro = measurement_pack.raw_measurements_(0); 	// meas_rho
       float phi = measurement_pack.raw_measurements_(1);	// meas_phi
       float ro_dot = measurement_pack.raw_measurements_(2);	// meas_rho_dot
       
-      ekf_.x_ << ro * cos(phi), ro * sin(phi), ro_dot * cos(phi), ro_dot * sin(phi), 0;					// px, py, vx, vy
+      ekf_.x_ << ro * cos(phi), ro * sin(phi), ro_dot * cos(phi), ro_dot * sin(phi);					// px, py, vx, vy
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
+      cout << "Init LASER" << endl;
       // TODO: Initialize state.
       ekf_.x_ << measurement_pack.raw_measurements_(0), measurement_pack.raw_measurements_(1), 0, 0; 	// px, py, vx, vy
     }
@@ -92,7 +98,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
           0, 0, 0, 1000;
 
     // The State Transition Matrix
-    // x¡ä= Fx + noise
+    // x'= Fx + noise
     F_ = MatrixXd(4, 4);
     F_ << 1, 0, 1, 0,
           0, 1, 0, 1,
@@ -165,4 +171,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   // print the output
   cout << "x_ = " << ekf_.x_ << endl;
   cout << "P_ = " << ekf_.P_ << endl;
+  
+  cout << "<<< FusionEKF::ProcessMeasurement" << endl;
 }

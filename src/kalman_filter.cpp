@@ -31,15 +31,40 @@ void KalmanFilter::Init(VectorXd &x_in, MatrixXd &P_in, MatrixXd &F_in,
 }
 
 void KalmanFilter::Predict() {
+  
+  cout << ">>> KalmanFilter::Predict" << endl;
+  
+  // print the state
+  cout << "KalmanFilter::Predict start state" << endl;
+  cout << "x_ = " << x_ << endl;
+  cout << "P_ = " << P_ << endl;
+  cout << "F_ = " << F_ << endl;
+  cout << "Q_ = " << Q_ << endl;
+  
   /**
    * TODO: predict the state
    */
   x_ = F_ * x_;
   MatrixXd Ft = F_.transpose();
   P_ = F_ * P_ * Ft + Q_;			// P′= FPFT + Q
+  
+  // print the state
+  cout << "KalmanFilter::Predict end state" << endl;
+  cout << "x_ = " << x_ << endl;
+  cout << "P_ = " << P_ << endl;
+  
+  cout << "<<< KalmanFilter::Predict" << endl;
 }
 
 void KalmanFilter::Update(const VectorXd &z) {
+  
+  cout << ">>> KalmanFilter::Update" << endl;
+  
+  // print the state
+  cout << "KalmanFilter::Update start state" << endl;
+  cout << "x_ = " << x_ << endl;
+  cout << "P_ = " << P_ << endl;
+  
   /**
    * TODO: update the state by using Kalman Filter equations
    */
@@ -56,9 +81,23 @@ void KalmanFilter::Update(const VectorXd &z) {
   long x_size = x_.size();
   MatrixXd I = MatrixXd::Identity(x_size, x_size);
   P_ = (I - K * H_laser_) * P_;
+  
+  // print the state
+  cout << "KalmanFilter::Update end state" << endl;
+  cout << "x_ = " << x_ << endl;
+  cout << "P_ = " << P_ << endl;
+  
+  cout << "<<< KalmanFilter::Update" << endl;
 }
 
 void KalmanFilter::UpdateEKF(const VectorXd &z) {
+  cout << ">>> KalmanFilter::UpdateEKF" << endl;
+  
+  // print the state
+  cout << "KalmanFilter::UpdateEKF start state" << endl;
+  cout << "x_ = " << x_ << endl;
+  cout << "P_ = " << P_ << endl;
+  
   /**
    * TODO: update the state by using Extended Kalman Filter equations
    */  
@@ -94,4 +133,11 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   long x_size = x_.size();
   MatrixXd I = MatrixXd::Identity(x_size, x_size);
   P_ = ( I - K * H_radar_ ) * P_;  
+  
+  // print the state
+  cout << "KalmanFilter::UpdateEKF end state" << endl;
+  cout << "x_ = " << x_ << endl;
+  cout << "P_ = " << P_ << endl;
+  
+  cout << "<<< KalmanFilter::UpdateEKF" << endl;
 }
